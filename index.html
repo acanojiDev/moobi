@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moobi Café · Café de día, copas de noche en Alhaurín de la Torre</title>
+  <meta name="description" content="Cafés, tés, milkshakes de 6 €, cervezas especiales y copas en Moobi Café, Alhaurín de la Torre. Con terraza. Mira la carta completa." />
+  <meta name="theme-color" content="#0E0A0F" />
+  <meta property="og:title" content="Moobi Café — Café de día, copas de noche" />
+  <meta property="og:description" content="Cafés, milkshakes, cervezas y copas en Alhaurín de la Torre." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23A6268A'/%3E%3Ccircle cx='48' cy='16' r='11' fill='%23A6268A'/%3E%3Crect x='6' y='14' width='52' height='46' rx='22' fill='%23A6268A'/%3E%3Ccircle cx='23' cy='32' r='9' fill='%23222'/%3E%3Ccircle cx='41' cy='32' r='8' fill='%23222'/%3E%3Cpath d='M17 46c8 6 22 6 30-2' stroke='%23222' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="#top" aria-label="Moobi Café, inicio"><span class="nav__mini" aria-hidden="true"></span>Moobi Café</a>
+    <nav class="nav__links" aria-label="Principal">
+      <a href="#dia">De día</a>
+      <a href="#batidos">Milkshakes</a>
+      <a href="#noche">De noche</a>
+      <a href="#carta">Carta</a>
+    </nav>
+    <a class="btn btn--pink nav__cta" href="#visita">Cómo llegar</a>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="menu-movil"><span class="sr-only">Abrir menú</span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-movil" id="menu-movil" hidden>
+    <a href="#dia">De día</a>
+    <a href="#batidos">Milkshakes</a>
+    <a href="#noche">De noche</a>
+    <a href="#carta">Carta</a>
+    <a href="#visita" class="btn btn--pink">Cómo llegar</a>
+  </div>
+
+  <main id="main">
+    <!-- HERO: el logo cobra vida -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <h1 class="sr-only" id="hero-title">Moobi Café, Alhaurín de la Torre</h1>
+      <div class="logo">
+        <span class="logo__m" aria-hidden="true">M</span>
+        <button class="logo__bear" type="button" aria-label="Saluda a Moobi">
+          <span class="bubble" role="status"></span>
+        </button>
+        <span class="logo__bi" aria-hidden="true">BI</span>
+        <span class="logo__sub" aria-hidden="true"><span class="logo__cafe">CAFÉ</span><span class="logo__place">ALHAURÍN</span></span>
+      </div>
+      <div class="hero__foot">
+        <p class="hero__claim">Café de día.<br />Copas de noche.</p>
+        <div class="hero__actions">
+          <a class="btn btn--pink" href="#carta">Ver la carta</a>
+          <a class="btn btn--ghost" href="#visita">Cómo llegar</a>
+        </div>
+      </div>
+      <p class="hero__hint" aria-hidden="true">Toca a Moobi</p>
+    </section>
+
+    <!-- DE DÍA -->
+    <section class="day" id="dia" aria-labelledby="dia-title">
+      <div class="day__text">
+        <h2 class="section-title" id="dia-title">Por la mañana, Moobi no es nadie sin su café.</h2>
+        <p class="section-lede">Como tú. Del solo de toda la vida al frappuccino, y tés con nombre de viaje.</p>
+        <ul class="picks">
+          <li><span class="picks__name">Café con leche</span><span class="picks__price">1,50 €</span></li>
+          <li><span class="picks__name">Café bombón</span><span class="picks__price">2,50 €</span></li>
+          <li><span class="picks__name">Frappuccino <small>cacao, caramelo, vainilla o avellana</small></span><span class="picks__price">4 €</span></li>
+          <li><span class="picks__name">Café irlandés</span><span class="picks__price">4,50 €</span></li>
+        </ul>
+        <p class="teas"><span>Taj Mahal</span><span>Tuareg</span><span>Kalahari</span><span>Matrioska</span><span>Copacabana</span><span>Katmandú</span><span class="teas__price">tés a 1,80 €</span></p>
+      </div>
+      <figure class="day__img"><img src="img/cafe.jpg" alt="Frappuccino y cappuccino en una mesa de terraza" loading="lazy" /></figure>
+    </section>
+
+    <!-- MILKSHAKES -->
+    <section class="shakes" id="batidos" aria-labelledby="batidos-title">
+      <div class="shakes__head">
+        <h2 class="shakes__title" id="batidos-title">Milkshakes <span>a 6 €</span></h2>
+        <p class="shakes__lede">Con nata montada, como tienen que ser.</p>
+        <figure class="shakes__img"><img src="img/batidos.jpg" alt="Milkshakes de Nutella, Oreo y Kinder Bueno con nata" loading="lazy" /></figure>
+      </div>
+      <ul class="shake-list">
+        <li><strong>Nutella</strong> Nutella, vainilla y leche</li>
+        <li><strong>Oreo</strong> Galletas Oreo, vainilla y leche</li>
+        <li><strong>Kinder Bueno</strong> Avellana, chocolate y vainilla</li>
+        <li><strong>Petit Suisse</strong> Fresa, plátano y leche</li>
+        <li><strong>Frigopie</strong> Vainilla, fresa y leche</li>
+        <li><strong>Silvestre tropical</strong> Frambuesa y mango</li>
+        <li class="is-house"><strong>Moobi Amazonas</strong> Kiwi y maracuyá. El de la casa.</li>
+      </ul>
+
+      <div class="maker" aria-labelledby="maker-title">
+        <div class="maker__glass" aria-hidden="true">
+          <svg viewBox="0 0 200 300" class="glass">
+            <defs>
+              <clipPath id="glass-clip"><path d="M40 70 L160 70 L148 280 Q147 290 137 290 L63 290 Q53 290 52 280 Z" /></clipPath>
+            </defs>
+            <g clip-path="url(#glass-clip)">
+              <rect class="glass__bg" x="0" y="0" width="200" height="300" fill="#F7E9F2" />
+              <g class="glass__layers"></g>
+            </g>
+            <path class="glass__cream" d="M36 74 C30 50 60 38 72 46 C76 24 112 18 122 40 C140 30 170 44 162 74 Z" fill="#fff" />
+            <circle class="glass__cherry" cx="118" cy="22" r="11" fill="#D6245A" />
+            <path d="M118 12 C122 0 132 -2 138 2" stroke="#3B7A3A" stroke-width="3" fill="none" stroke-linecap="round" />
+            <rect x="122" y="-4" width="9" height="90" rx="4" fill="#A6268A" transform="rotate(14 126 40)" />
+            <path d="M40 70 L160 70 L148 280 Q147 290 137 290 L63 290 Q53 290 52 280 Z" fill="none" stroke="rgba(14,10,15,.25)" stroke-width="3" />
+          </svg>
+        </div>
+        <div class="maker__panel">
+          <h3 class="maker__title" id="maker-title">Fabrica el tuyo</h3>
+          <p class="maker__hint">Elige hasta 3 sabores.</p>
+          <div class="flavours" role="group" aria-label="Sabores"></div>
+          <p class="maker__result" aria-live="polite">Tu milkshake: <strong>elige sabores</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DE NOCHE -->
+    <section class="night" id="noche" aria-labelledby="noche-title">
+      <figure class="night__img"><img src="img/noche.jpg" alt="Whisky, ron y un cóctel en la barra con luz morada" loading="lazy" /></figure>
+      <div class="night__text">
+        <h2 class="section-title" id="noche-title">De noche, Moobi se despierta.</h2>
+        <p class="section-lede">Cócteles, cervezas especiales y una buena selección de whisky y ron.</p>
+        <dl class="night__picks">
+          <div><dt>Cervezas especiales</dt><dd>La Chouffe, Mort Subite, Alhambra 1925 y tres IPA</dd></div>
+          <div><dt>Whisky premium</dt><dd>De Glenfiddich 12 a Macallan Amber</dd></div>
+          <div><dt>Ron premium</dt><dd>Havana 7, Matusalem 15, Zacapa 23</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- CARTA -->
+    <section class="menu" id="carta" aria-labelledby="carta-title">
+      <div class="menu__head">
+        <h2 class="section-title" id="carta-title">La carta</h2>
+        <p class="section-lede">Todo lo que te puede servir Moobi, con precios.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Secciones de la carta"></div>
+      <div class="menu__panels"></div>
+      <p class="menu__note"></p>
+    </section>
+
+    <!-- VISITA -->
+    <section class="visit" id="visita" aria-labelledby="visita-title">
+      <figure class="visit__img"><img src="img/terraza.jpg" alt="Terraza al anochecer con luces" loading="lazy" /></figure>
+      <div class="visit__text">
+        <h2 class="section-title" id="visita-title">Ven a ver a Moobi</h2>
+        <dl class="visit__info">
+          <div><dt>Dónde</dt><dd>Calle Mirador de Bellavista, local 2<br />Alhaurín de la Torre, Málaga</dd></div>
+          <div><dt>Teléfono</dt><dd><a href="tel:+34952426170">952 42 61 70</a></dd></div>
+        </dl>
+        <ul class="perks">
+          <li>Terraza</li><li>Cócteles</li><li>Carta de vinos</li><li>Pago con tarjeta</li><li>Aparcamiento</li><li>Accesible</li>
+        </ul>
+        <div class="visit__actions">
+          <a class="btn btn--pink" href="https://www.google.com/maps/search/?api=1&query=Moobi+Cafe+Calle+Mirador+de+Bellavista+Alhaur%C3%ADn+de+la+Torre" target="_blank" rel="noopener">Cómo llegar</a>
+          <a class="btn btn--ghost-dark" href="https://www.instagram.com/moobicafe/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__mark" aria-hidden="true">M<span class="footer__oo">oo</span>bi</p>
+    <div class="footer__row">
+      <p>Moobi Café en Alhaurín de la Torre</p>
+      <nav aria-label="Redes">
+        <a href="https://www.instagram.com/moobicafe/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/Moobicafe" target="_blank" rel="noopener">Facebook</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Mini Moobi que acompaña al bajar -->
+  <button class="buddy" type="button" aria-label="Moobi">
+    <span class="bubble bubble--buddy" role="status"></span>
+  </button>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
