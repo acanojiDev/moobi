@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moobi Café · Tardeo, futbolín y copas en Estación de Cártama</title>
-  <meta name="description" content="Cafés, batidos, futbolín y copas en Moobi Café, avenida Manuel de Falla 54, Estación de Cártama. El 20 y 21 de noviembre, 9º aniversario con DJ Lope." />
+  <meta name="description" content="Cafés, batidos, cócteles de película, futbolín y copas en Moobi Café, avenida Manuel de Falla 54, Estación de Cártama. El 20 y 21 de noviembre, 9º aniversario con DJ Lope." />
   <meta name="theme-color" content="#0E0A0F" />
   <meta property="og:title" content="Moobi Café — Estación de Cártama" />
   <meta property="og:description" content="Tardeo, futbolín y copas. 9º aniversario el 20 y 21 de noviembre con DJ Lope." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='16' cy='18' r='10' fill='%23A82480'/%3E%3Ccircle cx='48' cy='18' r='10' fill='%23A82480'/%3E%3Crect x='8' y='16' width='48' height='34' rx='16' fill='%23A82480'/%3E%3Crect x='14' y='40' width='16' height='16' rx='6' fill='%23A82480'/%3E%3Crect x='34' y='40' width='16' height='16' rx='6' fill='%23A82480'/%3E%3Cellipse cx='24' cy='30' rx='7' ry='6' fill='%231A1214'/%3E%3Cellipse cx='40' cy='30' rx='7' ry='6' fill='%231A1214'/%3E%3Cpath d='M20 34c3 3 6 3 8 0' stroke='%23fff' stroke-width='2' fill='none'/%3E%3Cpath d='M36 34c3 3 6 3 8 0' stroke='%23fff' stroke-width='2' fill='none'/%3E%3Cpath d='M22 44c6 5 14 5 20-1' stroke='%231A1214' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
   <script>document.documentElement.classList.add('js')</script>
-  <script type="module" crossorigin src="./assets/main-Cgbj3GHo.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/tarjeta-CYrPfO_I.js">
-  <link rel="stylesheet" crossorigin href="./assets/main-BV-ITeow.css">
+  <script type="module" crossorigin src="./assets/main-JHwRWl1h.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/menu-CgJ85-yM.js">
+  <link rel="stylesheet" crossorigin href="./assets/menu-C24VHPY7.css">
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido</a>
@@ -23,7 +23,7 @@
       <a href="#aniversario">Aniversario</a>
       <a href="#futbolin">Futbolín</a>
       <a href="#copas">Copas</a>
-      <a href="#carta">Carta</a>
+      <a href="carta.html">Carta</a>
     </nav>
     <a class="btn btn--pink nav__cta" href="#visita">Cómo llegar</a>
     <button class="nav__toggle" aria-expanded="false" aria-controls="menu-movil"><span class="sr-only">Abrir menú</span><span></span><span></span></button>
@@ -33,7 +33,7 @@
     <a href="#aniversario">Aniversario</a>
     <a href="#futbolin">Futbolín</a>
     <a href="#copas">Copas</a>
-    <a href="#carta">Carta</a>
+    <a href="carta.html">Carta</a>
     <a href="#visita" class="btn btn--pink">Cómo llegar</a>
   </div>
 
@@ -51,7 +51,7 @@
       <div class="hero__foot">
         <p class="hero__claim">Tardeo, futbolín<br />y copas.</p>
         <div class="hero__actions">
-          <a class="btn btn--pink" href="#carta">Ver la carta</a>
+          <a class="btn btn--pink" href="carta.html">Ver la carta</a>
           <a class="btn btn--ghost" href="#aniversario">El aniversario</a>
         </div>
       </div>
@@ -107,33 +107,21 @@
         </figure>
         <div class="copas__copy">
           <h2 id="copas-title">Copas</h2>
-          <p>Whisky, ron y combinados. La barra sigue cuando el tardeo se hace de noche.</p>
-        </div>
-      </div>
-
-      <div class="ticket" id="fideliza">
-        <div class="ticket__copy">
-          <h3>Diez copas, una de regalo</h3>
-          <p>El camarero escanea el QR con su móvil y suma la copa. A la décima, invita Moobi.</p>
-          <p class="ticket__status" data-stamp-status aria-live="polite"></p>
-          <div class="ticket__actions" data-ticket-actions></div>
-        </div>
-        <div class="ticket__side">
-          <canvas class="ticket__qr" data-qr hidden></canvas>
-          <p class="ticket__code" data-code hidden></p>
-          <ol class="stamps" data-stamps aria-label="Sellos de la tarjeta"></ol>
+          <p>Whisky, ron, combinados y cócteles de película. La barra sigue cuando el tardeo se hace de noche.</p>
+          <a class="btn" href="carta.html#cocteles">Ver los cócteles</a>
         </div>
       </div>
     </section>
 
-    <section class="menu" id="carta" aria-labelledby="carta-title">
-      <div class="menu__head">
-        <h2 class="section-title" id="carta-title">La carta</h2>
-        <p class="section-lede">Cafés, batidos, cervezas y copas, con precios.</p>
+    <section class="teaser" id="carta" aria-labelledby="carta-title">
+      <div class="teaser__head">
+        <div>
+          <h2 class="section-title" id="carta-title">Cócteles de película</h2>
+          <p class="section-lede">Seis con alcohol a 7,50 € y tres sin alcohol a 6 €. Y en la carta, cafés, batidos, cervezas y copas.</p>
+        </div>
+        <a class="btn btn--pink" href="carta.html">Ver la carta completa</a>
       </div>
-      <div class="tabs" role="tablist" aria-label="Secciones de la carta"></div>
-      <div class="menu__panels"></div>
-      <p class="menu__note"></p>
+      <ul class="teaser__list" data-teaser></ul>
     </section>
 
     <section class="visit" id="visita" aria-labelledby="visita-title">
@@ -154,7 +142,7 @@
           </div>
         </dl>
         <ul class="perks">
-          <li>Terraza</li><li>Futbolín</li><li>Copas</li><li>Cafés</li><li>Pago con tarjeta</li>
+          <li>Terraza</li><li>Futbolín</li><li>Copas</li><li>Cócteles</li><li>Cafés</li><li>Pago con tarjeta</li>
         </ul>
         <div class="visit__actions">
           <a class="btn btn--pink" href="https://www.google.com/maps/search/?api=1&query=Moobi+Caf%C3%A9+Estaci%C3%B3n+de+C%C3%A1rtama" target="_blank" rel="noopener">Cómo llegar</a>
