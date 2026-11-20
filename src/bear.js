@@ -1,66 +1,46 @@
 import { gsap } from 'gsap';
+import { BEAR, SOCKETS, MOUTH } from './logo-paths.js';
 
-// Moobi redibujado en SVG a partir del logo: morado, ojos de sueño (las dos "O" de MOOBI)
-// y sonrisa ladeada. Cada parte va por separado para poder animarla.
+// Moobi calcado del logo original: la silueta, las cuencas de los ojos y la sonrisa son
+// trazos del PNG (src/logo-paths.js). Por encima van, como piezas sueltas para animarlas,
+// el blanco de los ojos, las pupilas, los párpados y el rubor.
+
+export const MOOBI_PURPLE = '#973079';
+const INK = '#2B2B2B';
+
+// Geometría medida sobre el logo (coordenadas del PNG)
+const EYES = [
+  { cx: 341.5, cy: 239.5, r: 48.5, lid: 237, px: 339.5, py: 247, pr: 28, sx: 329, sy: 246, sr: 5 },
+  { cx: 436, cy: 246, r: 38, lid: 244, px: 434.5, py: 248.5, pr: 23.5, sx: 426, sy: 248, sr: 4 },
+];
+const GROUND = '380 439';
+const MOUTH_ORIGIN = '384 330';
 
 let uid = 0;
 
-const MOUTH_SLEEPY = 'M104 230 C132 256 180 256 208 226';
-const MOUTH_HAPPY = 'M100 222 C128 270 186 270 212 218';
-const TICK_SLEEPY = 'M208 226 L215 218';
-const TICK_HAPPY = 'M212 218 L218 209';
-
 export function bearSVG({ label = 'Moobi, el oso de Moobi Café' } = {}) {
   const id = `b${++uid}`;
+  const eyes = EYES.map((e, i) => `
+      <g class="bear__eye">
+        <clipPath id="${id}-e${i}"><circle cx="${e.cx}" cy="${e.cy}" r="${e.r}" /></clipPath>
+        <g clip-path="url(#${id}-e${i})">
+          <circle cx="${e.cx}" cy="${e.cy}" r="${e.r}" fill="#fff" />
+          <circle class="bear__pupil" cx="${e.px}" cy="${e.py}" r="${e.pr}" fill="${INK}" />
+          <circle class="bear__shine" cx="${e.sx}" cy="${e.sy}" r="${e.sr}" fill="#fff" opacity=".85" />
+          <rect class="bear__lid" x="${e.cx - e.r - 2}" y="${e.lid - 140}" width="${e.r * 2 + 4}" height="140" fill="${INK}" />
+        </g>
+        <circle cx="${e.cx}" cy="${e.cy}" r="${e.r}" fill="none" stroke="${INK}" stroke-width="2.5" />
+      </g>`).join('');
   return `
-<svg class="bear" viewBox="0 0 300 330" role="img" aria-label="${label}">
-  <defs>
-    <radialGradient id="${id}-fur" cx="38%" cy="28%" r="80%">
-      <stop offset="0" stop-color="#C846A8" />
-      <stop offset=".55" stop-color="#A6268A" />
-      <stop offset="1" stop-color="#7A1866" />
-    </radialGradient>
-    <clipPath id="${id}-eyeL"><circle cx="112" cy="152" r="31" /></clipPath>
-    <clipPath id="${id}-eyeR"><circle cx="194" cy="154" r="26" /></clipPath>
-  </defs>
-  <g class="bear__all">
-    <ellipse class="bear__shadow" cx="150" cy="322" rx="92" ry="7" />
-    <g class="bear__body">
-      <g class="bear__ear bear__ear--l">
-        <circle cx="74" cy="72" r="44" fill="url(#${id}-fur)" stroke="#5E1450" stroke-width="2.5" />
-        <circle cx="74" cy="72" r="21" fill="#7A1866" opacity=".35" />
-      </g>
-      <g class="bear__ear bear__ear--r">
-        <circle cx="226" cy="72" r="44" fill="url(#${id}-fur)" stroke="#5E1450" stroke-width="2.5" />
-        <circle cx="226" cy="72" r="21" fill="#7A1866" opacity=".35" />
-      </g>
-      <path class="bear__shape" fill="url(#${id}-fur)" stroke="#5E1450" stroke-width="2.5" stroke-linejoin="round"
-        d="M150 86 C215 86 262 118 262 172 C262 212 242 232 230 244 C237 264 237 292 231 309 Q228 318 217 318 L170 318 Q161 318 161 308 L161 292 Q150 283 139 292 L139 308 Q139 318 130 318 L83 318 Q72 318 69 309 C63 292 63 264 70 244 C58 232 38 212 38 172 C38 118 85 86 150 86 Z" />
-      <g class="bear__face">
-        <g class="bear__eye bear__eye--l">
-          <circle cx="112" cy="152" r="45" fill="#262226" />
-          <g clip-path="url(#${id}-eyeL)">
-            <circle cx="112" cy="152" r="31" fill="#fff" />
-            <circle class="bear__pupil" cx="112" cy="150" r="19" fill="#141114" />
-            <circle class="bear__shine" cx="104" cy="143" r="4.5" fill="#fff" opacity=".9" />
-            <ellipse class="bear__lid" cx="112" cy="110" rx="40" ry="42" fill="#262226" />
-          </g>
-        </g>
-        <g class="bear__eye bear__eye--r">
-          <circle cx="194" cy="154" r="39" fill="#262226" />
-          <g clip-path="url(#${id}-eyeR)">
-            <circle cx="194" cy="154" r="26" fill="#fff" />
-            <circle class="bear__pupil" cx="194" cy="152" r="16" fill="#141114" />
-            <circle class="bear__shine" cx="187" cy="146" r="4" fill="#fff" opacity=".9" />
-            <ellipse class="bear__lid" cx="194" cy="118" rx="34" ry="36" fill="#262226" />
-          </g>
-        </g>
-        <ellipse class="bear__blush bear__blush--l" cx="82" cy="214" rx="15" ry="8" fill="#F27BCB" opacity="0" />
-        <ellipse class="bear__blush bear__blush--r" cx="226" cy="210" rx="13" ry="7" fill="#F27BCB" opacity="0" />
-        <path class="bear__mouth" d="${MOUTH_SLEEPY}" fill="none" stroke="#262226" stroke-width="6" stroke-linecap="round" />
-        <path class="bear__tick" d="${TICK_SLEEPY}" fill="none" stroke="#262226" stroke-width="6" stroke-linecap="round" />
-      </g>
-    </g>
+<svg class="bear" viewBox="230 116 300 330" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>
+  <ellipse class="bear__shadow" cx="380" cy="440" rx="120" ry="7" />
+  <g class="bear__body">
+    <path class="bear__shape" d="${BEAR}" fill="${MOOBI_PURPLE}" />
+    <path d="${SOCKETS}" fill="${INK}" />
+    ${eyes}
+    <ellipse class="bear__blush" cx="297" cy="318" rx="17" ry="8" fill="#F27BCB" opacity="0" />
+    <ellipse class="bear__blush" cx="470" cy="311" rx="15" ry="7" fill="#F27BCB" opacity="0" />
+    <path class="bear__mouth" d="${MOUTH}" fill="${INK}" />
   </g>
 </svg>`;
 }
@@ -82,43 +62,37 @@ export class Bear {
 
     const q = (s) => this.svg.querySelector(s);
     const qa = (s) => [...this.svg.querySelectorAll(s)];
-    this.all = q('.bear__all');
     this.body = q('.bear__body');
-    this.earL = q('.bear__ear--l');
-    this.earR = q('.bear__ear--r');
+    this.shadow = q('.bear__shadow');
+    this.eyes = qa('.bear__eye');
     this.lids = qa('.bear__lid');
     this.pupils = qa('.bear__pupil');
     this.shines = qa('.bear__shine');
-    this.eyes = qa('.bear__eye');
     this.mouth = q('.bear__mouth');
-    this.tick = q('.bear__tick');
     this.blush = qa('.bear__blush');
-    this.shadow = q('.bear__shadow');
 
-    gsap.set(this.body, { transformOrigin: '50% 100%' });
-    gsap.set(this.earL, { transformOrigin: '80% 90%' });
-    gsap.set(this.earR, { transformOrigin: '20% 90%' });
+    gsap.set(this.body, { svgOrigin: GROUND });
+    gsap.set(this.shadow, { svgOrigin: '380 440' });
+    gsap.set(this.mouth, { svgOrigin: MOUTH_ORIGIN });
 
-    // movimiento de pupilas con inercia
-    this.pupilTo = this.pupils.map((p) => ({
-      x: gsap.quickTo(p, 'x', { duration: 0.35, ease: 'power3' }),
-      y: gsap.quickTo(p, 'y', { duration: 0.35, ease: 'power3' }),
-    }));
-    this.shineTo = this.shines.map((p) => ({
-      x: gsap.quickTo(p, 'x', { duration: 0.35, ease: 'power3' }),
-      y: gsap.quickTo(p, 'y', { duration: 0.35, ease: 'power3' }),
-    }));
+    // pupilas con inercia (el brillo se mueve menos y da volumen)
+    const qt = (el) => ({
+      x: gsap.quickTo(el, 'x', { duration: 0.35, ease: 'power3' }),
+      y: gsap.quickTo(el, 'y', { duration: 0.35, ease: 'power3' }),
+    });
+    this.pupilTo = this.pupils.map(qt);
+    this.shineTo = this.shines.map(qt);
 
     if (!reduced) this.idle();
   }
 
   idle() {
-    // respiración y balanceo suaves
-    gsap.set(this.all, { rotation: -1.6, svgOrigin: '150 320' });
-    this.sway = gsap.to(this.all, { rotation: 1.6, svgOrigin: '150 320', duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    this.breath = gsap.to(this.body, { scaleY: 1.018, scaleX: 0.992, duration: 1.7, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    // respiración y balanceo suaves, apoyado en los pies
+    gsap.set(this.body, { rotation: -1.4 });
+    this.sway = gsap.to(this.body, { rotation: 1.4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    this.breath = gsap.to(this.body, { scaleY: 1.02, scaleX: 0.99, duration: 1.7, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     this.scheduleBlink();
-    this.scheduleEars();
+    this.scheduleWiggle();
   }
 
   scheduleBlink() {
@@ -128,46 +102,54 @@ export class Bear {
     });
   }
 
-  scheduleEars() {
-    this.earCall = gsap.delayedCall(rand(3, 7), () => {
+  scheduleWiggle() {
+    this.wiggleCall = gsap.delayedCall(rand(4, 8), () => {
       this.wiggleEars();
-      this.scheduleEars();
+      this.scheduleWiggle();
     });
   }
 
+  lidOpen(i) {
+    const e = EYES[i];
+    return this.awake ? -(e.lid - (e.cy - e.r)) - 6 : 0;
+  }
+
   blink(double = false) {
-    const open = this.awake ? -30 : 0;
     const tl = gsap.timeline();
-    const once = () => tl.to(this.lids, { y: 40, duration: 0.07, ease: 'power2.in' }).to(this.lids, { y: open, duration: 0.14, ease: 'power2.out' });
+    const once = () => tl
+      .to(this.lids, { y: (i) => EYES[i].cy + EYES[i].r - EYES[i].lid + 4, duration: 0.07, ease: 'power2.in' })
+      .to(this.lids, { y: (i) => this.lidOpen(i), duration: 0.14, ease: 'power2.out' });
     once();
     if (double) { tl.to({}, { duration: 0.08 }); once(); }
     return tl;
   }
 
+  /** Meneíto: un "boing" con el cuerpo entero (en el logo las orejas van pegadas a la cabeza). */
   wiggleEars() {
-    const side = Math.random() < 0.5 ? this.earL : this.earR;
-    const dir = side === this.earL ? -1 : 1;
+    if (this.jumping) return;
+    const dir = Math.random() < 0.5 ? -1 : 1;
     gsap.timeline()
-      .to(side, { rotation: 14 * dir, duration: 0.09, ease: 'power2.out' })
-      .to(side, { rotation: -6 * dir, duration: 0.1 })
-      .to(side, { rotation: 0, duration: 0.5, ease: 'elastic.out(1, .4)' });
+      .to(this.body, { skewX: 5 * dir, duration: 0.12, ease: 'power2.out' })
+      .to(this.body, { skewX: -3 * dir, duration: 0.12 })
+      .to(this.body, { skewX: 0, duration: 0.6, ease: 'elastic.out(1, .35)' });
   }
 
   /** Mira hacia un punto de la pantalla (px de cliente). */
   look(cx, cy) {
     this.eyes.forEach((eye, i) => {
       const r = eye.getBoundingClientRect();
-      const ex = r.left + r.width / 2;
-      const ey = r.top + r.height / 2;
-      const dx = cx - ex;
-      const dy = cy - ey;
+      const dx = cx - (r.left + r.width / 2);
+      const dy = cy - (r.top + r.height / 2);
       const d = Math.hypot(dx, dy) || 1;
-      const max = i === 0 ? 10 : 8.5;
-      const k = Math.min(1, d / 220);
-      this.pupilTo[i].x((dx / d) * max * k);
-      this.pupilTo[i].y((dy / d) * max * k);
-      this.shineTo[i].x((dx / d) * max * k * 0.6);
-      this.shineTo[i].y((dy / d) * max * k * 0.6);
+      const k = Math.min(1, d / 240);
+      const max = EYES[i].r - EYES[i].pr - 2;
+      // hacia arriba se mueven menos: el párpado tapa esa zona
+      const ux = (dx / d) * max * k;
+      const uy = (dy / d) * max * k * (dy < 0 ? 0.55 : 1);
+      this.pupilTo[i].x(ux);
+      this.pupilTo[i].y(uy);
+      this.shineTo[i].x(ux * 0.7);
+      this.shineTo[i].y(uy * 0.7);
     });
   }
 
@@ -176,33 +158,29 @@ export class Bear {
     this.shineTo.forEach((p) => { p.x(0); p.y(0); });
   }
 
-  /** Despierto: ojos abiertos, sonrisa grande y rubor. Dormido: la cara del logo. */
+  /** Despierto: abre los ojos, sonríe más y se sonroja. Dormido: la cara del logo. */
   setAwake(on) {
     if (this.awake === on) return;
     this.awake = on;
     const d = this.reduced ? 0 : 0.45;
-    gsap.to(this.lids, { y: on ? -30 : 0, duration: d, ease: on ? 'back.out(2)' : 'power2.inOut' });
-    gsap.to(this.mouth, { attr: { d: on ? MOUTH_HAPPY : MOUTH_SLEEPY }, duration: d, ease: 'power2.out' });
-    gsap.to(this.tick, { attr: { d: on ? TICK_HAPPY : TICK_SLEEPY }, duration: d, ease: 'power2.out' });
-    gsap.to(this.blush, { opacity: on ? 0.75 : 0, duration: d });
+    gsap.to(this.lids, { y: (i) => this.lidOpen(i), duration: d, ease: on ? 'back.out(2)' : 'power2.inOut' });
+    gsap.to(this.mouth, { scaleX: on ? 1.08 : 1, scaleY: on ? 1.45 : 1, duration: d, ease: on ? 'back.out(2.5)' : 'power2.out' });
+    gsap.to(this.blush, { opacity: on ? 0.8 : 0, duration: d });
   }
 
   /** Salto con aplastamiento y estiramiento. */
   jump() {
-    if (this.reduced) return;
-    if (this.jumping) return;
+    if (this.reduced || this.jumping) return;
     this.jumping = true;
     this.breath?.pause();
     gsap.timeline({ onComplete: () => { this.jumping = false; this.breath?.restart(); } })
-      .to(this.body, { scaleY: 0.82, scaleX: 1.12, duration: 0.12, ease: 'power2.in' })
-      .to(this.body, { y: -70, scaleY: 1.1, scaleX: 0.93, duration: 0.28, ease: 'power2.out' })
-      .to(this.shadow, { scaleX: 0.6, opacity: 0.4, svgOrigin: '150 322', duration: 0.28, ease: 'power2.out' }, '<')
-      .to([this.earL, this.earR], { rotation: (i) => (i ? 18 : -18), duration: 0.2 }, '<')
+      .to(this.body, { scaleY: 0.8, scaleX: 1.14, duration: 0.12, ease: 'power2.in' })
+      .to(this.body, { y: -90, scaleY: 1.12, scaleX: 0.92, duration: 0.28, ease: 'power2.out' })
+      .to(this.shadow, { scaleX: 0.55, opacity: 0.35, duration: 0.28, ease: 'power2.out' }, '<')
       .to(this.body, { y: 0, scaleY: 1, scaleX: 1, duration: 0.26, ease: 'power2.in' })
       .to(this.shadow, { scaleX: 1, opacity: 1, duration: 0.26, ease: 'power2.in' }, '<')
-      .to(this.body, { scaleY: 0.9, scaleX: 1.07, duration: 0.08, ease: 'power1.out' })
-      .to(this.body, { scaleY: 1, scaleX: 1, duration: 0.5, ease: 'elastic.out(1, .35)' })
-      .to([this.earL, this.earR], { rotation: 0, duration: 0.6, ease: 'elastic.out(1, .35)' }, '<');
+      .to(this.body, { scaleY: 0.88, scaleX: 1.08, duration: 0.08, ease: 'power1.out' })
+      .to(this.body, { scaleY: 1, scaleX: 1, duration: 0.55, ease: 'elastic.out(1, .35)' });
   }
 
   say(text) {
@@ -220,10 +198,10 @@ export class Bear {
     if (this.reduced) return gsap.timeline();
     this.breath?.pause();
     return gsap.timeline({ delay, onComplete: () => this.breath?.restart() })
-      .fromTo(this.body, { y: -260, scaleY: 1.15, scaleX: 0.9 }, { y: 0, scaleY: 1, scaleX: 1, duration: 0.55, ease: 'power3.in' })
-      .fromTo(this.shadow, { scaleX: 0.3, opacity: 0, svgOrigin: '150 322' }, { scaleX: 1, opacity: 1, duration: 0.55, ease: 'power3.in' }, '<')
-      .to(this.body, { scaleY: 0.84, scaleX: 1.12, duration: 0.1, ease: 'power2.out' })
+      .fromTo(this.body, { y: -320, scaleY: 1.15, scaleX: 0.9 }, { y: 0, scaleY: 1, scaleX: 1, duration: 0.55, ease: 'power3.in' })
+      .fromTo(this.shadow, { scaleX: 0.3, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: 'power3.in' }, '<')
+      .to(this.body, { scaleY: 0.82, scaleX: 1.14, duration: 0.1, ease: 'power2.out' })
       .to(this.body, { scaleY: 1, scaleX: 1, duration: 0.7, ease: 'elastic.out(1, .32)' })
-      .add(() => this.wiggleEars(), '-=0.6');
+      .add(() => this.blink(), '-=0.4');
   }
 }

@@ -1,4 +1,7 @@
-// Carta de Moobi Café (fuente: su carta en QRCarta). Erratas de marcas corregidas.
+// Carta tomada de QRCarta id 6364 (la ficha que teníamos de Alhaurín), revisada el 20/11/2026:
+// los precios coinciden con QRCarta. Hay que confirmar con el local de Estación de Cártama si es la misma.
+// Los cócteles salen de la carta impresa del local (noviembre de 2026).
+// Erratas de marcas corregidas.
 // price: número en euros, o null si la carta no indica precio.
 
 export const menu = [
@@ -96,9 +99,12 @@ export const menu = [
         ['Judas', '', 4],
         ['Salitos Blue o Pink', '', 4],
         ['Cerveza IPA', 'Cerdos Voladores, Imparable o Lagunitas', 5],
-        ['Cruzcampo Gran Reserva', 'Media pinta 2,50 € · pinta 3,50 €', null],
-        ['Radler', 'Media pinta 2,50 € · pinta 3,50 €', null],
-        ['Paulaner', 'Media pinta 3,50 € · pinta 4 €', null],
+        ['Cruzcampo Gran Reserva, media pinta', '', 2.5],
+        ['Cruzcampo Gran Reserva, pinta', '', 3.5],
+        ['Radler, media pinta', '', 2.5],
+        ['Radler, pinta', '', 3.5],
+        ['Paulaner, media pinta', '', 3.5],
+        ['Paulaner, pinta', '', 4],
         ['Tinto con limón', '', 2.5],
         ['Ladrón de Manzanas', '', 3],
         ['Kopparberg', '', 4],
@@ -152,6 +158,30 @@ export const menu = [
         ['Matusalem 7', '', 8], ['Santa Teresa Selecto', '', 8], ['Brugal 1888', '', 9], ['Barceló Imperial', '', 9],
         ['Matusalem 15', '', 10], ['Zacapa 23', '', 10], ['Don Q 7', '', null], ['Don Q Gran Añejo', '', null], ['Flor de Caña 5', '', null],
       ] },
+    ],
+  },
+];
+
+// Cócteles "Clásicos de película". img: archivo en public/img/cocteles/.
+// El nombre del último sin alcohol (el de Terminator) no se lee en la foto de la carta: confirmar.
+export const cocteles = [
+  {
+    id: 'con', name: 'Con alcohol', price: 7.5,
+    items: [
+      { img: 'matcha', name: 'Trampantojo de matcha', badge: 'Cóctel ganador popular de la Ruta de la Tapa y el Cóctel 2026' },
+      { img: 'daiquiwito', name: 'Daiquiwito chispeante', quote: 'La vida es una fiesta, vístete para ella.', film: 'La máscara', notes: 'Cítrico, afrutado y sorprendente' },
+      { img: 'ectoplasma', name: 'Ectoplasma', quote: '¿A quién vas a llamar?', film: 'Cazafantasmas', notes: 'Ácido, electrizante y refrescante' },
+      { img: 'fuego-valyrio', name: 'Fuego Valyrio', quote: 'Dracarys.', film: 'Juego de tronos', notes: 'Robusto, especiado y vibrante' },
+      { img: 'pandora', name: 'Pandora', quote: 'Yo veo todo a través de ti.', film: 'Avatar', notes: 'Tropical, sedoso y exótico' },
+      { img: 'infinity', name: 'Infinity', quote: 'Avengers, unidos.', film: 'Los Vengadores', notes: 'Frutal, elegante y envolvente' },
+    ],
+  },
+  {
+    id: 'sin', name: 'Sin alcohol', price: 6,
+    items: [
+      { img: 'mordisco-marino', name: 'Mordisco marino', quote: 'Vas a necesitar un barco más grande.', film: 'Tiburón', notes: 'Tropical, refrescante y sorprendente' },
+      { img: 'fluzo', name: 'Fluzo', quote: 'Doc, necesitamos más velocidad.', film: 'Regreso al futuro', notes: 'Cítrico, eléctrico y chispeante' },
+      { img: 'hasta-la-vista', name: 'Hasta la vista', quote: 'Hasta la vista, baby.', film: 'Terminator', notes: 'Potente, afrutado y metálico' },
     ],
   },
 ];

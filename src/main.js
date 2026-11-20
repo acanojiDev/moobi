@@ -2,8 +2,10 @@ import './style.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { Bear, bearSVG } from './bear.js';
-import { menu, menuNote, flavours, eur } from './menu.js';
+import { Bear, bearSVG, MOOBI_PURPLE } from './bear.js';
+import { LETTER_M, LETTER_B, LETTER_I, CAFE } from './logo-paths.js';
+import { initFutbolin } from './futbolin.js';
+import { cocteles, eur } from './menu.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,15 +36,21 @@ $$('a[href^="#"]').forEach((a) => {
 
 /* ---------- Moobi grande (hero) ---------- */
 const PHRASES = [
-  '¿Un café?',
-  'Sin café no soy oso',
-  'Hoy apetece un milkshake',
+  '¿Una copa?',
+  'El futbolín está libre',
+  'DJ Lope, este finde',
+  '¿Un Fuego Valyrio?',
   '¿Nos vemos en la terraza?',
-  'Pruébate el Moobi Amazonas',
-  'De noche me despierto',
+  'También hay batidos',
 ];
 let phrase = 0;
 const nextPhrase = () => PHRASES[phrase++ % PHRASES.length];
+
+// letras del logo calcadas del original (misma tipografía)
+const glyph = (viewBox, ...paths) => `<svg viewBox="${viewBox}">${paths.map((d) => `<path d="${d}" fill="${MOOBI_PURPLE}" />`).join('')}</svg>`;
+$('.logo__m').innerHTML = glyph('56 186 193 159', LETTER_M);
+$('.logo__bi').innerHTML = glyph('526 181 190 181', LETTER_B, LETTER_I);
+$('.logo__cafe').innerHTML = glyph('518 360 133 57', CAFE);
 
 const heroBearBtn = $('.logo__bear');
 const hero = new Bear(heroBearBtn, { reduced, bubble: $('.bubble', heroBearBtn) });
@@ -110,7 +118,8 @@ gsap.set(buddyBtn, { y: '110%' });
 // visible después del hero; se esconde en la carta para no tapar los precios
 let pastHero = false;
 let inMenu = false;
-const syncBuddy = () => showBuddy(pastHero && !inMenu);
+let inCopas = false;
+const syncBuddy = () => showBuddy(pastHero && !inMenu && !inCopas);
 ScrollTrigger.create({
   trigger: '.hero', start: 'bottom 60%', endTrigger: '.footer', end: 'top bottom',
   onToggle: (s) => { pastHero = s.isActive; syncBuddy(); },
@@ -121,15 +130,13 @@ ScrollTrigger.create({
 });
 buddyBtn.addEventListener('click', () => { buddy.jump(); buddy.say(nextPhrase()); });
 
-// de día dormido, de noche despierto
 ScrollTrigger.create({
-  trigger: '#noche', start: 'top 60%', end: 'bottom 40%',
-  onToggle: (s) => buddy.setAwake(s.isActive),
+  trigger: '#copas', start: 'top 70%', end: 'bottom 45%',
+  onToggle: (s) => { inCopas = s.isActive; syncBuddy(); },
 });
-// con el café (o un milkshake) también abre un ojo
 ScrollTrigger.create({
-  trigger: '#batidos', start: 'top 50%', end: 'bottom 50%',
-  onEnter: () => buddy.say('¡Batidooo!'),
+  trigger: '#copas', start: 'top 60%', end: 'bottom 40%',
+  onToggle: (s) => buddy.setAwake(s.isActive),
 });
 
 /* ---------- Navegación ---------- */
@@ -167,90 +174,68 @@ toggle.addEventListener('click', () => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-/* ---------- Fabrica tu milkshake ---------- */
-const flavourBox = $('.flavours');
-const layers = $('.glass__layers');
-const result = $('.maker__result strong');
-const picked = [];
-flavourBox.innerHTML = flavours
-  .map(([name, color]) => `<button type="button" class="flavour" aria-pressed="false" data-name="${name}" style="--c:${color}"><i aria-hidden="true"></i>${name}</button>`)
-  .join('');
-const GLASS_TOP = 70;
-const GLASS_BOTTOM = 290;
-function drawGlass() {
-  const n = picked.length;
-  const h = (GLASS_BOTTOM - GLASS_TOP) / Math.max(n, 1);
-  layers.innerHTML = picked
-    .map((p, i) => `<rect x="0" y="${GLASS_BOTTOM - h * (i + 1)}" width="200" height="${h + 1}" fill="${p.color}" />`)
-    .join('');
-  if (!reduced) gsap.from($$('rect', layers), { scaleY: 0, transformOrigin: '50% 100%', duration: 0.5, ease: 'power3.out', stagger: 0.05 });
-  result.textContent = n ? picked.map((p) => p.name).join(' + ') : 'elige sabores';
-  $$('.flavour', flavourBox).forEach((b) => {
-    b.disabled = n >= 3 && b.getAttribute('aria-pressed') !== 'true';
-  });
-}
-flavourBox.addEventListener('click', (e) => {
-  const btn = e.target.closest('.flavour');
-  if (!btn || btn.disabled) return;
-  const name = btn.dataset.name;
-  const i = picked.findIndex((p) => p.name === name);
-  if (i >= 0) {
-    picked.splice(i, 1);
-    btn.setAttribute('aria-pressed', 'false');
-  } else if (picked.length < 3) {
-    picked.push({ name, color: btn.style.getPropertyValue('--c') });
-    btn.setAttribute('aria-pressed', 'true');
-    if (!reduced) gsap.fromTo('.glass__cherry', { y: -30 }, { y: 0, duration: 0.6, ease: 'bounce.out' });
+/* ---------- Cuenta atrás del aniversario ---------- */
+const START = new Date('2026-11-20T00:00:00+01:00');
+const END = new Date('2026-11-22T06:00:00+01:00');
+const countLive = $('[data-count-live]');
+const countGrid = $('[data-count-grid]');
+const countNow = $('[data-count-now]');
+const pad = (n) => String(n).padStart(2, '0');
+let lastSpoken = '';
+function tickCount() {
+  const now = new Date();
+  let spoken;
+  if (now >= END) {
+    countGrid.hidden = true;
+    countNow.hidden = false;
+    countNow.textContent = 'El 9º aniversario fue el 20 y 21 de noviembre.';
+    spoken = countNow.textContent;
+  } else if (now >= START) {
+    countGrid.hidden = true;
+    countNow.hidden = false;
+    const day = now.getDate() <= 20 ? 20 : 21;
+    countNow.textContent = `Hoy, ${day} de noviembre.`;
+    spoken = countNow.textContent;
+  } else {
+    countGrid.hidden = false;
+    countNow.hidden = true;
+    const diff = START - now;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    $('[data-d]').textContent = pad(days);
+    $('[data-h]').textContent = pad(hours);
+    $('[data-m]').textContent = pad(mins);
+    $('[data-s]').textContent = pad(secs);
+    spoken = `Faltan ${days} días, ${hours} horas y ${mins} minutos para el 20 de noviembre.`;
   }
-  drawGlass();
-});
-drawGlass();
-
-/* ---------- La carta ---------- */
-const tabs = $('.tabs');
-const panels = $('.menu__panels');
-tabs.innerHTML = menu
-  .map((c, i) => `<button class="tab" role="tab" id="tab-${c.id}" aria-controls="panel-${c.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${c.name}</button>`)
-  .join('');
-panels.innerHTML = menu
-  .map((c, i) => `
-    <div class="panel" role="tabpanel" id="panel-${c.id}" aria-labelledby="tab-${c.id}" ${i ? 'hidden' : ''}>
-      ${c.groups.map((g) => `
-        <div class="group">
-          <h3>${g.name}</h3>
-          <ul class="items">
-            ${g.items.map(([n, d, p]) => `<li><span class="n">${n}</span>${d ? `<span class="d">${d}</span>` : ''}<span class="p${p == null ? ' is-ask' : ''}">${eur(p)}</span></li>`).join('')}
-          </ul>
-        </div>`).join('')}
-    </div>`)
-  .join('');
-$('.menu__note').textContent = menuNote;
-
-const tabBtns = $$('.tab', tabs);
-function selectTab(btn, focus = false) {
-  tabBtns.forEach((t) => {
-    const on = t === btn;
-    t.setAttribute('aria-selected', String(on));
-    t.tabIndex = on ? 0 : -1;
-    $(`#${t.getAttribute('aria-controls')}`).hidden = !on;
-  });
-  if (focus) btn.focus();
-  btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  if (!reduced) gsap.from(`#${btn.getAttribute('aria-controls')} .items li`, { autoAlpha: 0, y: 8, duration: 0.3, stagger: 0.012, ease: 'power2.out' });
-  ScrollTrigger.refresh();
+  if (spoken !== lastSpoken) {
+    lastSpoken = spoken;
+    countLive.textContent = spoken;
+  }
 }
-tabBtns.forEach((btn, i) => {
-  btn.addEventListener('click', () => selectTab(btn));
-  btn.addEventListener('keydown', (e) => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    const next = tabBtns[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabBtns.length) % tabBtns.length];
-    selectTab(next, true);
-  });
-});
+tickCount();
+setInterval(tickCount, 1000);
+
+/* ---------- Cócteles destacados (la carta completa está en carta.html) ---------- */
+const destacados = ['matcha', 'fuego-valyrio', 'pandora', 'mordisco-marino'];
+$('[data-teaser]').innerHTML = cocteles
+  .flatMap((g) => g.items.map((c) => ({ ...c, price: g.price, tipo: g.name })))
+  .filter((c) => destacados.includes(c.img))
+  .map((c) => `
+    <li class="teaser__item">
+      <a href="carta.html#coctel-${c.img}">
+        <img src="img/cocteles/${c.img}.jpg" width="800" height="800" alt="Cóctel ${c.name}" loading="lazy" />
+        <span class="teaser__name">${c.name}</span>
+        <span class="teaser__meta">${c.tipo} · ${eur(c.price)}</span>
+      </a>
+    </li>`)
+  .join('');
 
 /* ---------- Fotos con un parallax suave ---------- */
 if (!reduced) {
-  $$('.day__img img, .night__img img, .visit__img img, .shakes__img img').forEach((img) => {
+  $$('.copas__photo img, .visit__img img').forEach((img) => {
     gsap.fromTo(img, { scale: 1.12, yPercent: -4 }, {
       scale: 1.12, yPercent: 4, ease: 'none',
       scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
@@ -259,3 +244,19 @@ if (!reduced) {
 }
 
 window.addEventListener('load', () => ScrollTrigger.refresh());
+
+/* ---------- Mini futbolín contra Moobi ---------- */
+initFutbolin($('.futbolin__game'), {
+  reduced,
+  onGoal: (who, score) => {
+    if (!buddyShown) return;
+    if (who === 'you') {
+      buddy.setAwake(true);
+      buddy.say(score.you >= 3 ? '¡Me has ganado!' : '¡Ese no lo vi!');
+      gsap.delayedCall(1.6, () => buddy.setAwake(false));
+    } else {
+      buddy.jump();
+      buddy.say(score.moobi >= 3 ? '¡Campeón Moobi!' : '¡Golazo de Moobi!');
+    }
+  },
+});
